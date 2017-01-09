@@ -54,7 +54,7 @@ class InteractiveWall {
     uint32_t colors[NUMCOLOR+1];
     Adafruit_NeoPixel strips[NUMSTRIPS];
 
-    int *pixels[NUMROW][NUMCOL];
+    int *pixels[NUMSTRIPS];
 };
 
 #endif
