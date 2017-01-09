@@ -76,15 +76,12 @@ void InteractiveWall::test() {
     setColor(0,0, colors[RED]);
     strips[0].show();
 }
-/*
+
 void InteractiveWall::setColor(int row, int col, uint32_t color) {
   //exits when out-of-bounds coordinates received
   if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
 
-  //reads length of array from array[0], then iterates from i=1 to i=array[0]
-  for(int i=1; i<*pixels[row][col]+1; i++){
-    strips[row].setPixelColor(*(pixels[row][col]+i), color);
-  }
+  for (int i=0; i<pixels[row][col]; i++) strips[row].setPixelColor(pixelSum(row,col)+i, color);
 }
 
 void InteractiveWall::setColor(uint32_t color) {
@@ -97,7 +94,7 @@ void InteractiveWall::showColor(int row, int col, uint32_t color) {
   setColor(row, col, color);
   strips[row].show();
 }
-*/
+
 void InteractiveWall::showAll(void) {
   for (int i=0; i<NUMSTRIPS; i++) strips[i].show();
 }
@@ -114,3 +111,9 @@ uint32_t InteractiveWall::mapColor(uint8_t r, uint8_t g, uint8_t b) {
   return ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
 }
 
+int InteractiveWall::pixelSum(int row, int col) {
+    int sum = 0;
+    for (int i=0; i<col; i++) sum+= pixels[row][i];
+
+    return sum;
+}

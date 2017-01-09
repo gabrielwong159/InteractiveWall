@@ -51,9 +51,10 @@ class InteractiveWall {
     uint32_t mapColor(uint8_t r, uint8_t g, uint8_t b);
 
   private:
+    int pixelSum(int row, int col);
+
     uint32_t colors[NUMCOLOR+1];
     Adafruit_NeoPixel strips[NUMSTRIPS];
-
     int *pixels[NUMSTRIPS];
 };
 
