@@ -1,8 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <InteractiveWall.h>
 
-InteractiveWall::InteractiveWall()
-{
+InteractiveWall::InteractiveWall() {
 
     //takes in 2 parameters, (numberOfPixelsInStrip, stripPinNumber), change accordingly if required
     strips[0] = Adafruit_NeoPixel(57, NP0);
@@ -20,21 +19,21 @@ InteractiveWall::InteractiveWall()
     strips[12] = Adafruit_NeoPixel(54, NP12);
     strips[13] = Adafruit_NeoPixel(59, NP13);
 
-
-    int list0[] = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,4};
-    int list1[] = {3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,3,4,7};
-    int list2[] = {3,3,3,3,3,3,3,3,3,4,3,3,3,3,2,2,3,3,4,4};
-    int list3[] = {3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,3,4,7};
-    int list4[] = {2,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,3,3,4,5};
-    int list5[] = {3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,3,3,4,5};
-    int list6[] = {4,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,3,4,5};
-    int list7[] = {5,4,3,3,3,3,3,3,3,2,2,2,2,3,3,3,3,3,3,5};
-    int list8[] = {5,3,3,3,3,2,2,2,2,2,2,2,2,3,3,3,3,3,3,4};
-    int list9[] = {5,4,3,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,4};
-    int list10[] = {5,4,3,3,2,2,2,3,2,2,2,2,2,2,2,3,3,3,3,3};
-    int list11[] = {6,4,3,2,2,2,2,3,3,3,3,2,2,2,3,2,3,3,3,4};
-    int list12[] = {6,3,2,2,2,2,2,2,3,3,3,2,2,2,2,3,3,3,3,4};
-    int list13[] = {3,3,3,3,3,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3};
+    //each array stores the number of LEDs in each cell
+    uint16_t list0[] = {3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,4};
+    uint16_t list1[] = {3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,3,4,7};
+    uint16_t list2[] = {3,3,3,3,3,3,3,3,3,4,3,3,3,3,2,2,3,3,4,4};
+    uint16_t list3[] = {3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,3,3,4,7};
+    uint16_t list4[] = {2,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,3,3,4,5};
+    uint16_t list5[] = {3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,3,3,4,5};
+    uint16_t list6[] = {4,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,3,4,5};
+    uint16_t list7[] = {5,4,3,3,3,3,3,3,3,2,2,2,2,3,3,3,3,3,3,5};
+    uint16_t list8[] = {5,3,3,3,3,2,2,2,2,2,2,2,2,3,3,3,3,3,3,4};
+    uint16_t list9[] = {5,4,3,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,4};
+    uint16_t list10[] = {5,4,3,3,2,2,2,3,2,2,2,2,2,2,2,3,3,3,3,3};
+    uint16_t list11[] = {6,4,3,2,2,2,2,3,3,3,3,2,2,2,3,2,3,3,3,4};
+    uint16_t list12[] = {6,3,2,2,2,2,2,2,3,3,3,2,2,2,2,3,3,3,3,4};
+    uint16_t list13[] = {3,3,3,3,3,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3};
 
     pixels[0] = list0;
     pixels[1] = list1;
@@ -50,17 +49,6 @@ InteractiveWall::InteractiveWall()
     pixels[11] = list11;
     pixels[12] = list12;
     pixels[13] = list13;
-
-    //TODO convert constants to uint32_t values instead of being the array indices
-    //initializing default 7-color wheel
-    colors[RED] = mapColor(255,0,0);
-    colors[ORANGE] = mapColor(255,127,0);
-    colors[YELLOW] = mapColor(255,255,0);
-    colors[GREEN] = mapColor(0,255,0);
-    colors[TEAL] = mapColor(0,255,255);
-    colors[BLUE] = mapColor(0,0,255);
-    colors[MAGENTA] = mapColor(255,0,255);
-    colors[BLANK] = mapColor(0,0,0);
 }
 
 // public
@@ -72,43 +60,46 @@ void InteractiveWall::initialize() {
     }
 }
 
-void InteractiveWall::test() {
-    setColor(0,0, colors[RED]);
-    strips[0].show();
+void InteractiveWall::setColor(int row, int col, uint8_t r, uint8_t g, uint8_t b) {
+    //exits when out-of-bounds coordinates received
+    if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
+
+    setColor(row, col, mapColor(r,g,b));
 }
 
 void InteractiveWall::setColor(int row, int col, uint32_t color) {
-  //exits when out-of-bounds coordinates received
-  if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
+    if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
 
-  for (int i=0; i<pixels[row][col]; i++) strips[row].setPixelColor(pixelSum(row,col)+i, color);
+    for (int i=0; i<pixels[row][col]; i++) strips[row].setPixelColor(pixelSum(row,col)+i, color);
 }
 
 void InteractiveWall::setColor(uint32_t color) {
-  for (int i=0; i<NUMROW; i++) for (int j=0; j<NUMCOL; j++) setColor(i,j,color);
+    for (int i=0; i<NUMROW; i++) for (int j=0; j<NUMCOL; j++) setColor(i,j,color);
+}
+
+void InteractiveWall::showColor(int row, int col, uint8_t r, uint8_t g, uint8_t b) {
+    if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
+
+    showColor(row, col, mapColor(r,g,b));
 }
 
 void InteractiveWall::showColor(int row, int col, uint32_t color) {
-  if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
+    if (row<0 || col<0 || row>=NUMROW || col>=NUMCOL) return;
 
-  setColor(row, col, color);
-  strips[row].show();
+    setColor(row, col, color);
+    strips[row].show();
 }
 
 void InteractiveWall::showAll(void) {
-  for (int i=0; i<NUMSTRIPS; i++) strips[i].show();
+    for (int i=0; i<NUMSTRIPS; i++) strips[i].show();
 }
 
 void InteractiveWall::blank(void) {
-  setColor(colors[BLANK]);
-}
-
-uint32_t InteractiveWall::getColor(int index) {
-  return colors[index];
+    setColor(COLOR_BLANK);
 }
 
 uint32_t InteractiveWall::mapColor(uint8_t r, uint8_t g, uint8_t b) {
-  return ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
+    return ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
 }
 
 int InteractiveWall::pixelSum(int row, int col) {

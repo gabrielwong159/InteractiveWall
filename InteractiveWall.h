@@ -25,29 +25,28 @@
 #define NUMCOLOR 7
 #define DELAYVAL 100
 
-#define RED 0
-#define ORANGE 1
-#define YELLOW 2
-#define GREEN 3
-#define TEAL 4
-#define BLUE 5
-#define MAGENTA 6
-#define BLANK 7
+#define COLOR_RED 16711680
+#define COLOR_ORANGE 16744192
+#define COLOR_YELLOW 16776960
+#define COLOR_GREEN 65280
+#define COLOR_TEAL 65535
+#define COLOR_BLUE 255
+#define COLOR_MAGENTA 16711935
+#define COLOR_BLANK 0
 
 class InteractiveWall {
   public:
     InteractiveWall();
 
     void initialize();
+    void setColor(int row, int col, uint8_t r, uint8_t g, uint8_t b);
     void setColor(int row, int col, uint32_t color);
     void setColor(uint32_t color);
+    void showColor(int row, int col, uint8_t r, uint8_t g, uint8_t b);
     void showColor(int row, int col, uint32_t color);
     void showAll();
     void blank();
 
-    void test();
-
-    uint32_t getColor(int index);
     uint32_t mapColor(uint8_t r, uint8_t g, uint8_t b);
 
   private:
@@ -55,7 +54,7 @@ class InteractiveWall {
 
     uint32_t colors[NUMCOLOR+1];
     Adafruit_NeoPixel strips[NUMSTRIPS];
-    int *pixels[NUMSTRIPS];
+    uint16_t *pixels[NUMSTRIPS];
 };
 
 #endif
