@@ -19,7 +19,6 @@
 #define NP12 42
 #define NP13 43
 
-#define NUMSTRIPS 14
 #define NUMROW 14
 #define NUMCOL 20
 #define NUMCOLOR 7
@@ -53,8 +52,8 @@ class InteractiveWall {
     int pixelSum(int row, int col);
 
     uint32_t colors[NUMCOLOR+1];
-    Adafruit_NeoPixel strips[NUMSTRIPS];
-    uint16_t *pixels[NUMSTRIPS];
-};
+    Adafruit_NeoPixel strips[NUMROWS];
+    uint8_t *pixels[NUMROWS];
+}
 
 #endif
