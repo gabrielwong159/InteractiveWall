@@ -90,6 +90,12 @@ void InteractiveWall::showColor(int row, int col, uint8_t r, uint8_t g, uint8_t 
         showColor(row, col, mapColor(r,g,b));
 }
 
+void InteractiveWall:showRow(int row) {
+        if (row<0 || row>=NUMROW) return;
+
+        strips[row].show();
+}
+
 void InteractiveWall::showAll(void) {
         for (int i=0; i<NUMROWS; i++) strips[i].show();
 }

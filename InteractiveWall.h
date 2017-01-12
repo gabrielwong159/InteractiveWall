@@ -43,6 +43,7 @@ class InteractiveWall {
     void setColor(uint32_t color);
     void showColor(int row, int col, uint8_t r, uint8_t g, uint8_t b);
     void showColor(int row, int col, uint32_t color);
+    void showRow(int row);
     void showAll();
     void blank();
 
